@@ -46,6 +46,18 @@
         }
     </script>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .MuiTypography-root {
+            word-break: break-word;
+        }
+
         html {
             scroll-behavior: smooth;
         }
@@ -89,13 +101,31 @@
         const theme = createTheme({
             typography: {
                 fontFamily: '"Inter", sans-serif',
-                h1: { fontFamily: '"Noto Serif", serif', fontWeight: 700, letterSpacing: '-0.01em' },
-                h2: { fontFamily: '"Noto Serif", serif', fontWeight: 700 },
-                h3: { fontFamily: '"Noto Serif", serif', fontWeight: 400 },
-                h4: { fontFamily: '"Noto Serif", serif', fontWeight: 600 },
-                h5: { fontFamily: '"Noto Serif", serif', fontWeight: 600 },
-                h6: { fontWeight: 600 },
-                button: { textTransform: 'none', fontWeight: 600, letterSpacing: '0.05em' }
+
+                h1: {
+                    fontFamily: '"Noto Serif", serif',
+                    fontWeight: 700,
+                    fontSize: 'clamp(1.8rem, 5vw, 5rem)',
+                    lineHeight: 1.2
+                },
+
+                h2: {
+                    fontFamily: '"Noto Serif", serif',
+                    fontWeight: 700,
+                    fontSize: 'clamp(1.5rem, 4vw, 3rem)'
+                },
+
+                h5: {
+                    fontFamily: '"Noto Serif", serif',
+                    fontWeight: 600,
+                    fontSize: 'clamp(0.9rem, 2.5vw, 1.5rem)'
+                },
+
+                button: {
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    letterSpacing: '0.05em'
+                }
             },
             palette: {
                 primary: { main: '#000000' }, // Noir
@@ -282,10 +312,13 @@
                             <Typography variant="overline" sx={{ color: '#c5a059', letterSpacing: '0.4em', mb: 2, display: 'block' }}>
                                 BESPOKE INTERIORS
                             </Typography>
-                            <Typography variant="h1" component="h1" gutterBottom sx={{ fontSize: { xs: '2.2rem', sm: '3rem', md: '5rem' }, mb: 4 }}>
+                            <Typography variant="h1" component="h1" gutterBottom sx={{ mb: 4 }}>
                                 Neeva Interior Studio
                             </Typography>
-                            <Typography variant="h5" sx={{ mb: 6, fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '700px', mx: 'auto' }}>
+                            <Typography variant="h5" sx={{
+                                mb: 6, fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '100%',
+                                px: 2, mx: 'auto'
+                            }}>
                                 Premium Interior Designers, Carpenters & Civil Contractors crafting timeless spaces in Jabalpur.
                             </Typography>
                             <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
