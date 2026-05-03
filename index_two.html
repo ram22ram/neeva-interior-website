@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Neeva Interior Studio | Jabalpur</title>
+    <!-- Google Fonts: Noto Serif for titles, Inter for body -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Noto+Serif:wght@300;400;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- React, ReactDOM, Emotion, and MUI CDNs -->
+    <script crossorigin="" src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin="" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/@emotion/react@11/dist/emotion-react.umd.min.js"></script>
+    <script src="https://unpkg.com/@emotion/styled@11/dist/emotion-styled.umd.min.js"></script>
+    <script src="https://unpkg.com/@mui/material@5/umd/material-ui.production.min.js"></script>
+    <!-- Tailwind CSS for utility spacing if needed, though primary styling is via MUI theme -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "gold": "#c5a059",
+                        "noir": "#131b2e",
+                        "surface": "#fcf8fa",
+                        "surface-dim": "#dcd9db",
+                    },
+                    fontFamily: {
+                        "serif": ["Noto Serif", "serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #fcf8fa;
+            color: #1b1b1d;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const {
+            ThemeProvider, createTheme, CssBaseline, AppBar, Toolbar, Typography,
+            Button, Container, Grid, Card, CardContent, CardMedia, Box, IconButton,
+            Paper, Avatar, Rating, Divider, List, ListItem, ListItemIcon, ListItemText
+        } = MaterialUI;
+
+        // Atelier Noir & Or Theme Configuration
+        const theme = createTheme({
+            typography: {
+                fontFamily: '"Inter", sans-serif',
+                h1: { fontFamily: '"Noto Serif", serif', fontWeight: 700, letterSpacing: '-0.01em' },
+                h2: { fontFamily: '"Noto Serif", serif', fontWeight: 700 },
+                h3: { fontFamily: '"Noto Serif", serif', fontWeight: 400 },
+                h4: { fontFamily: '"Noto Serif", serif', fontWeight: 600 },
+                h5: { fontFamily: '"Noto Serif", serif', fontWeight: 600 },
+                h6: { fontWeight: 600 },
+                button: { textTransform: 'none', fontWeight: 600, letterSpacing: '0.05em' }
+            },
+            palette: {
+                primary: { main: '#000000' }, // Noir
+                secondary: { main: '#c5a059' }, // Or (Gold)
+                background: {
+                    default: '#fcf8fa',
+                    paper: '#ffffff'
+                },
+                text: {
+                    primary: '#1b1b1d',
+                    secondary: '#45464d'
+                }
+            },
+            components: {
+                MuiCard: {
+                    styleOverrides: {
+                        root: {
+                            borderRadius: '4px',
+                            boxShadow: 'none',
+                            border: '1px solid #eae7e9',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                                borderColor: '#c5a059',
+                                transform: 'translateY(-4px)',
+                                boxShadow: '0 12px 24px rgba(0,0,0,0.05)'
+                            }
+                        }
+                    }
+                },
+                MuiButton: {
+                    styleOverrides: {
+                        root: {
+                            borderRadius: '0px', // Sophisticated sharp corners
+                            padding: '12px 32px'
+                        },
+                        containedPrimary: {
+                            backgroundColor: '#000000',
+                            '&:hover': { backgroundColor: '#131b2e' }
+                        },
+                        containedSecondary: {
+                            backgroundColor: '#c5a059',
+                            color: '#000000',
+                            '&:hover': { backgroundColor: '#b38f4d' }
+                        }
+                    }
+                },
+                MuiAppBar: {
+                    styleOverrides: {
+                        root: {
+                            backgroundColor: '#000000',
+                            color: '#ffffff'
+                        }
+                    }
+                }
+            }
+        });
+
+        const services = [
+            { title: 'Modular Kitchen Design', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80', desc: 'Custom, modern, and space-efficient kitchen setups with premium finishes.' },
+            { title: 'Furniture Manufacturing', img: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&q=80&w=800', desc: 'Bespoke furniture pieces tailored to your exact aesthetic and functional needs.' },
+            { title: 'Waterproofing Services', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800', desc: 'Reliable and durable industrial-grade waterproofing solutions.' },
+            { title: '3D Interior Design', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=800', desc: 'Photorealistic 3D visual representations of your future dream space.' },
+            { title: 'Carpentry Work', img: 'https://images.unsplash.com/photo-1581781870027-04212e231e96?auto=format&fit=crop&q=80&w=800', desc: 'Expert artisanal woodwork and precision installation services.' },
+            { title: 'Site Supervision', img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80', desc: 'Rigorous end-to-end monitoring to ensure high-standard execution.' }
+        ];
+
+        const pricing = [
+            { plan: 'Modular Kitchen', price: '₹1,00,000+', features: ['Premium Materials', 'Custom Hardware', 'Space Optimization', 'Installation Included'] },
+            { plan: 'Waterproofing', price: '₹25 – ₹45', unit: 'per sq.ft', features: ['High-Grade Chemicals', 'Crack Filling', 'Leakage Warranty', 'Surface Preparation'] },
+            { plan: '3D Interior Design', price: '₹10,000', unit: 'per package', features: ['Detailed Floor Plans', 'Photorealistic Renders', 'Color Consultation', 'Layout Revisions'] }
+        ];
+
+        const testimonials = [
+            { name: "Suresh K.", review: "Quick service and professional work. Highly recommend their interior solutions!" },
+            { name: "Priya M.", review: "Excellent experience and flexible support throughout our kitchen remodeling." }
+        ];
+
+        function App() {
+            return (
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+
+                    {/* Sleek Dark Navigation */}
+                    <AppBar position="sticky" elevation={0} sx={{ borderBottom: '1px solid rgba(197, 160, 89, 0.2)' }}>
+                        <Toolbar sx={{ justifyContent: 'space-between', px: { md: 8 } }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: '0.1em', color: '#c5a059' }}>
+                                NEEVA STUDIO
+                            </Typography>
+                            <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4 }}>
+                                {['About', 'Services', 'Pricing', 'Reviews'].map((item) => (
+                                    <Button
+                                        key={item}
+                                        href={`#${item.toLowerCase()}`}
+                                        sx={{
+                                            color: 'white',
+                                            '&:hover': { color: '#c5a059', bgcolor: 'transparent' }
+                                        }}
+                                    >
+                                        {item}
+                                    </Button>
+                                ))}
+                                <Button
+                                    href="#contact"
+                                    variant="outlined"
+                                    sx={{
+                                        color: '#c5a059',
+                                        borderColor: '#c5a059',
+                                        '&:hover': { borderColor: 'white', color: 'white' }
+                                    }}
+                                >
+                                    Contact Us
+                                </Button>
+                            </Box>
+                        </Toolbar>
+                    </AppBar>
+
+                    {/* Hero Section: Noir & Or Minimalist */}
+                    <Box sx={{
+                        position: 'relative',
+                        bgcolor: '#000000',
+                        color: 'white',
+                        pt: { xs: 12, md: 20 },
+                        pb: { xs: 12, md: 20 },
+                        textAlign: 'center',
+                        overflow: 'hidden',
+                        backgroundImage: 'radial-gradient(circle at 50% 50%, #131b2e 0%, #000000 100%)'
+                    }}>
+                        <Container maxWidth="md">
+                            <Typography variant="overline" sx={{ color: '#c5a059', letterSpacing: '0.4em', mb: 2, display: 'block' }}>
+                                BESPOKE INTERIORS
+                            </Typography>
+                            <Typography variant="h1" component="h1" gutterBottom sx={{ fontSize: { xs: '3rem', md: '5rem' }, mb: 4 }}>
+                                Neeva Interior Studio
+                            </Typography>
+                            <Typography variant="h5" sx={{ mb: 6, fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '700px', mx: 'auto' }}>
+                                Premium Interior Designers, Carpenters & Civil Contractors crafting timeless spaces in Jabalpur.
+                            </Typography>
+                            <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    size="large"
+                                    href="tel:+918105462260"
+                                    startIcon={<span className="material-symbols-outlined">call</span>}
+                                >
+                                    Inquire via Call
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    size="large"
+                                    href="https://wa.me/918105462260"
+                                    startIcon={<span className="material-symbols-outlined">chat</span>}
+                                    sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)', '&:hover': { borderColor: '#c5a059', color: '#c5a059' } }}
+                                >
+                                    WhatsApp
+                                </Button>
+                            </Box>
+                        </Container>
+                        {/* Subtle decorative element */}
+                        <Box sx={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '1px', height: '100px', bgcolor: '#c5a059' }} />
+                    </Box>
+
+                    {/* About Section */}
+                    <Box id="about" sx={{ py: 15, bgcolor: '#ffffff' }}>
+                        <Container>
+                            <Grid container spacing={8} alignItems="center">
+                                <Grid item xs={12} md={6}>
+                                    <Box sx={{ position: 'relative' }}>
+                                        <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=1200" alt="About Us" style={{ width: '100%', borderRadius: '4px' }} />
+                                        <Box sx={{ position: 'absolute', top: -20, left: -20, width: '100px', height: '100px', borderTop: '4px solid #c5a059', borderLeft: '4px solid #c5a059', zIndex: -1 }} />
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <Typography variant="overline" color="secondary" sx={{ fontWeight: 'bold', letterSpacing: '0.2em' }}>ESTABLISHED 2023</Typography>
+                                    <Typography variant="h2" gutterBottom sx={{ mt: 1, mb: 4 }}>
+                                        Transforming Houses into Homes
+                                    </Typography>
+                                    <Typography variant="body1" color="text.secondary" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8, mb: 4 }}>
+                                        Located in the heart of Jabalpur, <b>Neeva Interior Studio</b> brings dedicated expertise in shaping residential and commercial spaces. From conceptual 3D designs to final civil execution, we offer a seamless end-to-end luxury experience.
+                                    </Typography>
+                                    <List sx={{ mb: 4 }}>
+                                        {[
+                                            "Custom Furniture Solutions",
+                                            "Verified Business on Justdial",
+                                            "Timely Delivery & Professional Execution"
+                                        ].map((text, idx) => (
+                                            <ListItem key={idx} disablePadding sx={{ mb: 2 }}>
+                                                <ListItemIcon sx={{ minWidth: '40px' }}><span className="material-symbols-outlined" style={{ color: '#c5a059' }}>check_circle</span></ListItemIcon>
+                                                <ListItemText primary={text} primaryTypographyProps={{ fontWeight: 500 }} />
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                    <Button variant="outlined" color="primary">Learn More About Our Process</Button>
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </Box>
+
+                    {/* Services Section */}
+                    <Box id="services" sx={{ py: 15, bgcolor: '#fcf8fa' }}>
+                        <Container>
+                            <Box sx={{ textAlign: 'center', mb: 10 }}>
+                                <Typography variant="h2" gutterBottom>Our Services</Typography>
+                                <Box sx={{ width: '60px', height: '3px', bgcolor: '#c5a059', mx: 'auto', mb: 3 }} />
+                                <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 300 }}>
+                                    Complete interior and civil solutions under one roof.
+                                </Typography>
+                            </Box>
+                            <Grid container spacing={4}>
+                                {services.map((service, index) => (
+                                    <Grid item xs={12} sm={6} md={4} key={index}>
+                                        <Card sx={{ height: '100%', border: 'none', bgcolor: 'transparent', '&:hover img': { transform: 'scale(1.05)' } }}>
+                                            <Box sx={{ overflow: 'hidden', borderRadius: '4px' }}>
+                                                <CardMedia
+                                                    component="img"
+                                                    height="280"
+                                                    image={service.img}
+                                                    alt={service.title}
+                                                    sx={{ transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)' }}
+                                                />
+                                            </Box>
+                                            <CardContent sx={{ px: 0, pt: 3 }}>
+                                                <Typography variant="h5" gutterBottom sx={{ fontWeight: 700 }}>{service.title}</Typography>
+                                                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                                                    {service.desc}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Container>
+                    </Box>
+
+                    {/* Pricing Section */}
+                    <Box id="pricing" sx={{ py: 15, bgcolor: '#ffffff' }}>
+                        <Container>
+                            <Box sx={{ textAlign: 'center', mb: 10 }}>
+                                <Typography variant="h2" gutterBottom>Popular Packages</Typography>
+                                <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 300 }}>
+                                    Transparent pricing for premium quality craftsmanship.
+                                </Typography>
+                            </Box>
+                            <Grid container spacing={4} justifyContent="center">
+                                {pricing.map((item, index) => (
+                                    <Grid item xs={12} md={4} key={index}>
+                                        <Card sx={{
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            p: 4,
+                                            border: index === 0 ? '2px solid #c5a059' : '1px solid #eae7e9'
+                                        }}>
+                                            <Box sx={{ textAlign: 'center', mb: 4 }}>
+                                                <Typography variant="overline" color="secondary" sx={{ fontWeight: 700, letterSpacing: '0.1em' }}>
+                                                    {item.plan}
+                                                </Typography>
+                                                <Box sx={{ mt: 2 }}>
+                                                    <Typography variant="h3" component="span" sx={{ fontWeight: 700 }}>
+                                                        {item.price}
+                                                    </Typography>
+                                                    {item.unit && (
+                                                        <Typography variant="body2" color="text.secondary" sx={{ display: 'block' }}>
+                                                            / {item.unit}
+                                                        </Typography>
+                                                    )}
+                                                </Box>
+                                            </Box>
+                                            <Divider sx={{ mb: 4 }} />
+                                            <List sx={{ flexGrow: 1, mb: 4 }}>
+                                                {item.features.map((feat, i) => (
+                                                    <ListItem key={i} sx={{ py: 1, px: 0 }}>
+                                                        <ListItemIcon sx={{ minWidth: 32 }}>
+                                                            <span className="material-symbols-outlined" style={{ color: '#c5a059', fontSize: '20px' }}>check</span>
+                                                        </ListItemIcon>
+                                                        <ListItemText primary={feat} primaryTypographyProps={{ variant: 'body2' }} />
+                                                    </ListItem>
+                                                ))}
+                                            </List>
+                                            <Button fullWidth variant={index === 0 ? "contained" : "outlined"} color="secondary" href="tel:+918105462260">
+                                                Inquire Now
+                                            </Button>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Container>
+                    </Box>
+
+                    {/* Why Choose Us & Ratings */}
+                    <Box id="why-choose-us" sx={{ py: 15, bgcolor: '#000000', color: 'white' }}>
+                        <Container>
+                            <Grid container spacing={10} alignItems="center">
+                                <Grid item xs={12} md={7}>
+                                    <Typography variant="h2" gutterBottom sx={{ color: '#c5a059' }}>
+                                        Why Choose Neeva?
+                                    </Typography>
+                                    <Typography variant="h6" sx={{ fontWeight: 300, color: 'rgba(255,255,255,0.7)', mb: 8 }}>
+                                        We are committed to delivering excellence. Our customers trust us for our transparency, quality, and timely project delivery.
+                                    </Typography>
+                                    <Grid container spacing={4}>
+                                        {[
+                                            { val: "200+", label: "Happy Clients" },
+                                            { val: "2-3", label: "Years Experience" },
+                                            { val: "100%", label: "Customization" },
+                                            { val: "Verified", label: "Business" }
+                                        ].map((stat, i) => (
+                                            <Grid item xs={6} md={3} key={i}>
+                                                <Typography variant="h4" sx={{ fontWeight: 700, color: 'white' }}>{stat.val}</Typography>
+                                                <Typography variant="body2" sx={{ color: '#c5a059', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{stat.label}</Typography>
+                                            </Grid>
+                                        ))}
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12} md={5}>
+                                    <Paper sx={{
+                                        p: 6,
+                                        borderRadius: '4px',
+                                        textAlign: 'center',
+                                        bgcolor: 'rgba(197, 160, 89, 0.05)',
+                                        border: '1px solid rgba(197, 160, 89, 0.3)'
+                                    }}>
+                                        <Typography variant="h1" sx={{ color: '#c5a059', mb: 1 }}>5.0</Typography>
+                                        <Rating value={5} readOnly size="large" sx={{ mb: 2, color: '#c5a059' }} />
+                                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                                            Outstanding Ratings
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', mt: 1 }}>
+                                            Based on 200+ Justdial reviews
+                                        </Typography>
+                                    </Paper>
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </Box>
+
+                    {/* Testimonials */}
+                    <Box id="reviews" sx={{ py: 15, bgcolor: '#ffffff' }}>
+                        <Container>
+                            <Box sx={{ textAlign: 'center', mb: 10 }}>
+                                <Typography variant="h2" gutterBottom>Client Testimonials</Typography>
+                                <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 300 }}>
+                                    Hear what our customers have to say about our work.
+                                </Typography>
+                            </Box>
+                            <Grid container spacing={4} justifyContent="center">
+                                {testimonials.map((testimonial, index) => (
+                                    <Grid item xs={12} md={5} key={index}>
+                                        <Paper elevation={0} sx={{ p: 6, borderRadius: '4px', border: '1px solid #eae7e9', position: 'relative' }}>
+                                            <span className="material-symbols-outlined" style={{ color: '#c5a059', fontSize: '48px', opacity: 0.2, position: 'absolute', top: '24px', left: '24px' }}>format_quote</span>
+                                            <Typography variant="h6" sx={{ mb: 4, fontStyle: 'italic', fontWeight: 400, position: 'relative', zIndex: 1 }}>
+                                                "{testimonial.review}"
+                                            </Typography>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                <Avatar sx={{ bgcolor: '#000000', color: '#c5a059' }}>{testimonial.name.charAt(0)}</Avatar>
+                                                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                                                    {testimonial.name}
+                                                </Typography>
+                                            </Box>
+                                        </Paper>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Container>
+                    </Box>
+
+                    {/* Contact Section */}
+                    <Box id="contact" sx={{ py: 15, bgcolor: '#fcf8fa' }}>
+                        <Container>
+                            <Grid container spacing={8}>
+                                <Grid item xs={12} md={5}>
+                                    <Typography variant="h2" gutterBottom>Get In Touch</Typography>
+                                    <Typography variant="body1" color="text.secondary" sx={{ mb: 6 }}>
+                                        Ready to transform your space? Contact us today for a consultation.
+                                    </Typography>
+                                    <List>
+                                        {[
+                                            { icon: 'location_on', label: 'Address', text: 'Near Sai Mandir, Vatsala Paradise Road, Krishi Upaj Mandi, Jabalpur, MP - 482002' },
+                                            { icon: 'phone', label: 'Phone', text: '+91 8105462260' },
+                                            { icon: 'schedule', label: 'Business Hours', text: 'Open Daily' }
+                                        ].map((item, idx) => (
+                                            <ListItem key={idx} sx={{ px: 0, alignItems: 'flex-start', mb: 3 }}>
+                                                <ListItemIcon sx={{ minWidth: '48px', mt: 0.5 }}>
+                                                    <span className="material-symbols-outlined" style={{ color: '#c5a059' }}>{item.icon}</span>
+                                                </ListItemIcon>
+                                                <ListItemText
+                                                    primary={item.label}
+                                                    secondary={item.text}
+                                                    primaryTypographyProps={{ fontWeight: 700, color: '#000000' }}
+                                                />
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                    <Box sx={{ mt: 6, display: 'flex', gap: 2 }}>
+                                        <Button variant="contained" color="primary" size="large" href="tel:+918105462260">
+                                            Call Us
+                                        </Button>
+                                        <Button variant="outlined" color="secondary" size="large" href="https://wa.me/918105462260">
+                                            WhatsApp
+                                        </Button>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} md={7}>
+                                    <Box sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        minHeight: '450px',
+                                        borderRadius: '4px',
+                                        overflow: 'hidden',
+                                        border: '1px solid #eae7e9'
+                                    }}>
+                                        <iframe
+                                            width="100%"
+                                            height="100%"
+                                            style={{ border: 0 }}
+                                            loading="lazy"
+                                            allowFullScreen
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117462.43577317378!2d79.85965416568285!3d23.160166297312384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3981ae1a0fb6a97d%3A0x44020616bc43e3b9!2sJabalpur%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1714730000000!5m2!1sen!2sin">
+                                        </iframe>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </Box>
+
+                    {/* Footer */}
+                    <Box sx={{ bgcolor: '#000000', color: 'white', py: 8, borderTop: '1px solid rgba(197, 160, 89, 0.2)' }}>
+                        <Container sx={{ textAlign: 'center' }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: '0.2em', color: '#c5a059', mb: 3 }}>
+                                NEEVA INTERIOR STUDIO
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', mb: 4, maxWidth: '400px', mx: 'auto' }}>
+                                Premium Interior Designers • Expert Carpenters • Civil Contractors. Crafting luxury living in Jabalpur since 2023.
+                            </Typography>
+                            <Divider sx={{ bgcolor: 'rgba(255,255,255,0.1)', mb: 4 }} />
+                            <Typography variant="body2" sx={{ opacity: 0.4 }}>
+                                &copy; {new Date().getFullYear()} Neeva Interior Studio. All Rights Reserved.
+                            </Typography>
+                        </Container>
+                    </Box>
+                </ThemeProvider>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
