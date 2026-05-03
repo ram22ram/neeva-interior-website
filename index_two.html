@@ -61,6 +61,17 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-up.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 
@@ -68,10 +79,11 @@
     <div id="root"></div>
     <script type="text/babel">
         const {
-            ThemeProvider, createTheme, CssBaseline, AppBar, Toolbar, Typography,
+            ThemeProvider, Drawer, createTheme, CssBaseline, AppBar, Toolbar, Typography,
             Button, Container, Grid, Card, CardContent, CardMedia, Box, IconButton,
-            Paper, Avatar, Rating, Divider, List, ListItem, ListItemIcon, ListItemText
+            Paper, Avatar, Rating, Divider, List, ListItem, ListItemIcon, ListItemText, ListItemButton,
         } = MaterialUI;
+
 
         // Atelier Noir & Or Theme Configuration
         const theme = createTheme({
@@ -162,41 +174,96 @@
         ];
 
         function App() {
+
+            const [open, setOpen] = React.useState(false);
+
+            React.useEffect(() => {
+                const elements = document.querySelectorAll('.fade-up');
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('show');
+                        }
+                    });
+                });
+
+                elements.forEach(el => observer.observe(el));
+            }, []);
+
             return (
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
 
                     {/* Sleek Dark Navigation */}
                     <AppBar position="sticky" elevation={0} sx={{ borderBottom: '1px solid rgba(197, 160, 89, 0.2)' }}>
-                        <Toolbar sx={{ justifyContent: 'space-between', px: { md: 8 } }}>
-                            <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: '0.1em', color: '#c5a059' }}>
+                        <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 8 } }}>
+
+                            {/* Logo */}
+                            <Typography variant="h6" sx={{ fontWeight: 700, color: '#c5a059' }}>
                                 NEEVA STUDIO
                             </Typography>
+
+                            {/* Desktop Menu */}
                             <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4 }}>
                                 {['About', 'Services', 'Pricing', 'Reviews'].map((item) => (
-                                    <Button
-                                        key={item}
-                                        href={`#${item.toLowerCase()}`}
-                                        sx={{
-                                            color: 'white',
-                                            '&:hover': { color: '#c5a059', bgcolor: 'transparent' }
-                                        }}
-                                    >
+                                    <Button key={item} href={`#${item.toLowerCase()}`} sx={{ color: 'white' }}>
                                         {item}
                                     </Button>
                                 ))}
-                                <Button
-                                    href="#contact"
-                                    variant="outlined"
-                                    sx={{
-                                        color: '#c5a059',
-                                        borderColor: '#c5a059',
-                                        '&:hover': { borderColor: 'white', color: 'white' }
-                                    }}
-                                >
-                                    Contact Us
-                                </Button>
                             </Box>
+
+                            {/* Mobile Menu */}
+                            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                                <IconButton color="inherit" onClick={() => setOpen(true)}>
+                                    <span className="material-symbols-outlined">menu</span>
+                                </IconButton>
+                            </Box>
+
+                            {/* Drawer for Mobile */}
+                            <Drawer
+                                anchor="right"
+                                open={open}
+                                onClose={() => setOpen(false)}
+                                PaperProps={{
+                                    sx: {
+                                        width: '80%',
+                                        bgcolor: '#000000',
+                                        color: 'white',
+                                        boxSizing: 'border-box'
+                                    }
+                                }}
+                            >
+                                <Box sx={{ p: 4 }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 6 }}>
+                                        <Typography variant="h5" sx={{ fontWeight: 700, color: '#c5a059' }}>
+                                            Menu
+                                        </Typography>
+                                        <IconButton color="inherit" onClick={() => setOpen(false)}>
+                                            <span className="material-symbols-outlined">close</span>
+                                        </IconButton>
+                                    </Box>
+                                    <List>
+                                        {['About', 'Services', 'Pricing', 'Reviews'].map((item) => (
+                                            <ListItem disablePadding key={item}>
+                                                <ListItemButton
+                                                    component="a"
+                                                    href={`#${item.toLowerCase()}`}
+                                                    onClick={() => setOpen(false)}
+                                                    sx={{
+                                                        py: 3,
+                                                        borderBottom: '1px solid rgba(255,255,255,0.1)',
+                                                        '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' }
+                                                    }}
+                                                >
+                                                    <ListItemText primary={item} sx={{ fontSize: '1.2rem', fontWeight: 500 }} />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                </Box>
+                            </Drawer>
+
                         </Toolbar>
                     </AppBar>
 
@@ -215,7 +282,7 @@
                             <Typography variant="overline" sx={{ color: '#c5a059', letterSpacing: '0.4em', mb: 2, display: 'block' }}>
                                 BESPOKE INTERIORS
                             </Typography>
-                            <Typography variant="h1" component="h1" gutterBottom sx={{ fontSize: { xs: '3rem', md: '5rem' }, mb: 4 }}>
+                            <Typography variant="h1" component="h1" gutterBottom sx={{ fontSize: { xs: '2.2rem', sm: '3rem', md: '5rem' }, mb: 4 }}>
                                 Neeva Interior Studio
                             </Typography>
                             <Typography variant="h5" sx={{ mb: 6, fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '700px', mx: 'auto' }}>
@@ -247,9 +314,9 @@
                     </Box>
 
                     {/* About Section */}
-                    <Box id="about" sx={{ py: 15, bgcolor: '#ffffff' }}>
+                    <Box id="about" className="fade-up" sx={{ py: { xs: 8, md: 15 }, bgcolor: '#ffffff' }}>
                         <Container>
-                            <Grid container spacing={8} alignItems="center">
+                            <Grid container spacing={{ xs: 4, md: 8 }} alignItems="center">
                                 <Grid item xs={12} md={6}>
                                     <Box sx={{ position: 'relative' }}>
                                         <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=1200" alt="About Us" style={{ width: '100%', borderRadius: '4px' }} />
@@ -283,7 +350,7 @@
                     </Box>
 
                     {/* Services Section */}
-                    <Box id="services" sx={{ py: 15, bgcolor: '#fcf8fa' }}>
+                    <Box id="services" className="fade-up" sx={{ py: { xs: 8, md: 15 }, bgcolor: '#fcf8fa' }}>
                         <Container>
                             <Box sx={{ textAlign: 'center', mb: 10 }}>
                                 <Typography variant="h2" gutterBottom>Our Services</Typography>
@@ -299,10 +366,12 @@
                                             <Box sx={{ overflow: 'hidden', borderRadius: '4px' }}>
                                                 <CardMedia
                                                     component="img"
-                                                    height="280"
                                                     image={service.img}
                                                     alt={service.title}
-                                                    sx={{ transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)' }}
+                                                    sx={{
+                                                        height: { xs: 200, md: 280 },
+                                                        transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                                                    }}
                                                 />
                                             </Box>
                                             <CardContent sx={{ px: 0, pt: 3 }}>
@@ -319,7 +388,7 @@
                     </Box>
 
                     {/* Pricing Section */}
-                    <Box id="pricing" sx={{ py: 15, bgcolor: '#ffffff' }}>
+                    <Box id="pricing" className="fade-up" sx={{ py: { xs: 8, md: 15 }, bgcolor: '#ffffff' }}>
                         <Container>
                             <Box sx={{ textAlign: 'center', mb: 10 }}>
                                 <Typography variant="h2" gutterBottom>Popular Packages</Typography>
@@ -329,7 +398,7 @@
                             </Box>
                             <Grid container spacing={4} justifyContent="center">
                                 {pricing.map((item, index) => (
-                                    <Grid item xs={12} md={4} key={index}>
+                                    <Grid item xs={12} sm={6} md={4} key={index}>
                                         <Card sx={{
                                             height: '100%',
                                             display: 'flex',
@@ -374,9 +443,9 @@
                     </Box>
 
                     {/* Why Choose Us & Ratings */}
-                    <Box id="why-choose-us" sx={{ py: 15, bgcolor: '#000000', color: 'white' }}>
+                    <Box id="why-choose-us" sx={{ py: { xs: 8, md: 15 }, bgcolor: '#000000', color: 'white' }}>
                         <Container>
-                            <Grid container spacing={10} alignItems="center">
+                            <Grid container spacing={{ xs: 4, md: 10 }} alignItems="center">
                                 <Grid item xs={12} md={7}>
                                     <Typography variant="h2" gutterBottom sx={{ color: '#c5a059' }}>
                                         Why Choose Neeva?
@@ -421,7 +490,7 @@
                     </Box>
 
                     {/* Testimonials */}
-                    <Box id="reviews" sx={{ py: 15, bgcolor: '#ffffff' }}>
+                    <Box id="reviews" className="fade-up" sx={{ py: { xs: 8, md: 15 }, bgcolor: '#ffffff' }}>
                         <Container>
                             <Box sx={{ textAlign: 'center', mb: 10 }}>
                                 <Typography variant="h2" gutterBottom>Client Testimonials</Typography>
@@ -451,9 +520,9 @@
                     </Box>
 
                     {/* Contact Section */}
-                    <Box id="contact" sx={{ py: 15, bgcolor: '#fcf8fa' }}>
+                    <Box id="contact" sx={{ py: { xs: 8, md: 15 }, bgcolor: '#fcf8fa' }}>
                         <Container>
-                            <Grid container spacing={8}>
+                            <Grid container spacing={{ xs: 4, md: 8 }}>
                                 <Grid item xs={12} md={5}>
                                     <Typography variant="h2" gutterBottom>Get In Touch</Typography>
                                     <Typography variant="body1" color="text.secondary" sx={{ mb: 6 }}>
@@ -477,7 +546,12 @@
                                             </ListItem>
                                         ))}
                                     </List>
-                                    <Box sx={{ mt: 6, display: 'flex', gap: 2 }}>
+                                    <Box sx={{
+                                        mt: 6,
+                                        display: 'flex',
+                                        gap: 2,
+                                        flexWrap: 'wrap'
+                                    }}>
                                         <Button variant="contained" color="primary" size="large" href="tel:+918105462260">
                                             Call Us
                                         </Button>
@@ -490,7 +564,7 @@
                                     <Box sx={{
                                         width: '100%',
                                         height: '100%',
-                                        minHeight: '450px',
+                                        minHeight: { xs: '300px', md: '450px' },
                                         borderRadius: '4px',
                                         overflow: 'hidden',
                                         border: '1px solid #eae7e9'
@@ -527,6 +601,8 @@
                 </ThemeProvider>
             );
         }
+
+
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
